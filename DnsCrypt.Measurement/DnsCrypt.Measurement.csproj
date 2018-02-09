@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DNS" Version="3.0.0" />
+    <PackageReference Include="NSec.Cryptography" Version="18.1.0-alpha-190337" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DnsCrypt.Models\DnsCrypt.Models.csproj" />
+    <ProjectReference Include="..\DnsCrypt.Tools\DnsCrypt.Tools.csproj" />
+  </ItemGroup>
+
+</Project>

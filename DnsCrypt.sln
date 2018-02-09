@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnsCrypt.Stamps", "DnsCrypt.Stamps\DnsCrypt.Stamps.csproj", "{84A3870D-C0AD-45E7-8422-543F07F5EFFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnsCrypt.Stamps.Tests", "DnsCrypt.Stamps.Tests\DnsCrypt.Stamps.Tests.csproj", "{45FB2DDB-6052-4CD6-90BB-D3739777562C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnsCrypt.Measurement.Tests", "DnsCrypt.Measurement.Tests\DnsCrypt.Measurement.Tests.csproj", "{B496C334-26D4-4CD5-8205-CD353410BEB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnsCrypt.Tools", "DnsCrypt.Tools\DnsCrypt.Tools.csproj", "{B1A7C62A-AEA9-48F5-ACD4-6C1F876BE51C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnsCrypt.Measurement", "DnsCrypt.Measurement\DnsCrypt.Measurement.csproj", "{73D1EAD4-013A-4174-B030-46FB2D31E2CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnsCrypt.Models", "DnsCrypt.Models\DnsCrypt.Models.csproj", "{15ACBBA5-318C-4E7B-8CE1-EE08DEC7F30F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{84A3870D-C0AD-45E7-8422-543F07F5EFFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84A3870D-C0AD-45E7-8422-543F07F5EFFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84A3870D-C0AD-45E7-8422-543F07F5EFFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84A3870D-C0AD-45E7-8422-543F07F5EFFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45FB2DDB-6052-4CD6-90BB-D3739777562C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45FB2DDB-6052-4CD6-90BB-D3739777562C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45FB2DDB-6052-4CD6-90BB-D3739777562C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45FB2DDB-6052-4CD6-90BB-D3739777562C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B496C334-26D4-4CD5-8205-CD353410BEB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B496C334-26D4-4CD5-8205-CD353410BEB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B496C334-26D4-4CD5-8205-CD353410BEB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B496C334-26D4-4CD5-8205-CD353410BEB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1A7C62A-AEA9-48F5-ACD4-6C1F876BE51C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1A7C62A-AEA9-48F5-ACD4-6C1F876BE51C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1A7C62A-AEA9-48F5-ACD4-6C1F876BE51C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1A7C62A-AEA9-48F5-ACD4-6C1F876BE51C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73D1EAD4-013A-4174-B030-46FB2D31E2CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73D1EAD4-013A-4174-B030-46FB2D31E2CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73D1EAD4-013A-4174-B030-46FB2D31E2CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73D1EAD4-013A-4174-B030-46FB2D31E2CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15ACBBA5-318C-4E7B-8CE1-EE08DEC7F30F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15ACBBA5-318C-4E7B-8CE1-EE08DEC7F30F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15ACBBA5-318C-4E7B-8CE1-EE08DEC7F30F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15ACBBA5-318C-4E7B-8CE1-EE08DEC7F30F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3BCEDA54-6E9A-440E-B8BF-21A8AF873DC6}
+	EndGlobalSection
+EndGlobal
