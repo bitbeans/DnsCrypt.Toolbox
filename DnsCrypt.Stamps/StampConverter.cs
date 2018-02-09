@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using DnsCrypt.Models;
 using DnsCrypt.Tools;
@@ -70,6 +72,31 @@ namespace DnsCrypt.Stamps
 			return stampObject;
 		}
 
-		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="stampFilePath"></param>
+		/// <returns></returns>
+		public static List<Stamp> ReadStampFile(string stampFilePath)
+		{
+			var stampList = new List<Stamp>();
+			if (!File.Exists(stampFilePath)) return stampList;
+			var content = File.ReadAllText(stampFilePath);
+			if (string.IsNullOrEmpty(content)) return stampList;
+			var rawStampList = content.Split(new[] { '#', '#' }, StringSplitOptions.RemoveEmptyEntries);
+
+			foreach (var rawStampListEntry in rawStampList)
+			{
+				var def = rawStampListEntry.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
+				if (def.Length != 3) continue;
+
+				var stamp = Decode(def[2].Trim());
+				if (stamp != null)
+				{
+					stampList.Add(stamp);
+				}
+			}
+			return stampList;
+		}
 	}
 }

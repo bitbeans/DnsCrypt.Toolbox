@@ -17,4 +17,10 @@
     <ProjectReference Include="..\DnsCrypt.Stamps\DnsCrypt.Stamps.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Testfiles\public-resolvers.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
