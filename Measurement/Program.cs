@@ -127,7 +127,6 @@ namespace Measurement
 				    if (stamp.Protocol == StampProtocol.DnsCrypt)
 				    {
 					    var measurement = await MeasurementTools.Proxy(stamp).ConfigureAwait(false);
-						
 					    if (!measurement.Failed)
 					    {
 						    measurementResults.Add(measurement);

@@ -10,7 +10,7 @@ namespace DnsCrypt.Stamps.Tests
 	    {
 		    var testFile = Path.Combine("Testfiles", "public-resolvers.md");
 		    var stamps = StampTools.ReadStampFile(testFile);
-			Assert.Equal(81, stamps.Count);
+			Assert.Equal(85, stamps.Count);
 	    }
 	}
 }

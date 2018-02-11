@@ -119,12 +119,20 @@ namespace DnsCrypt.Stamps
 			foreach (var rawStampListEntry in rawStampList)
 			{
 				var def = rawStampListEntry.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
-				if (def.Length != 3) continue;
+				//TODO: fix this condition (may not work with every list ...)
+				if (def.Length > 6) continue;
 
-				var stamp = Decode(def[2].Trim());
+				Stamp stamp = null;
+				for (int i = 0; i<def.Length; i++)
+				{
+					if (def[i].StartsWith("sdns://"))
+					{
+						stamp = Decode(def[i].Trim());
+					}
+				}
+
 				if (stamp != null)
 				{
-					
 					if (onlyDnsSec)
 					{
 						if (!stamp.Properties.DnsSec)
