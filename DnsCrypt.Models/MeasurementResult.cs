@@ -1,6 +1,6 @@
 ﻿namespace DnsCrypt.Models
 {
-	public class Measurement
+	public class MeasurementResult
 	{
 		public Stamp Stamp { get; set; }
 		public long Time { get; set; }

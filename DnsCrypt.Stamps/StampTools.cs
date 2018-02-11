@@ -7,7 +7,7 @@ using DnsCrypt.Tools;
 
 namespace DnsCrypt.Stamps
 {
-    public static class StampConverter
+    public static class StampTools
 	{
 		/// <summary>
 		/// Decode an encoded Stamp. 
@@ -76,8 +76,11 @@ namespace DnsCrypt.Stamps
 		/// 
 		/// </summary>
 		/// <param name="stampFilePath"></param>
+		/// <param name="noLog"></param>
+		/// <param name="noFilter"></param>
+		/// <param name="onlyDnsSec"></param>
 		/// <returns></returns>
-		public static List<Stamp> ReadStampFile(string stampFilePath)
+		public static List<Stamp> ReadStampFile(string stampFilePath, bool noLog = false, bool noFilter = false, bool onlyDnsSec = false)
 		{
 			var stampList = new List<Stamp>();
 			if (!File.Exists(stampFilePath)) return stampList;
@@ -93,6 +96,28 @@ namespace DnsCrypt.Stamps
 				var stamp = Decode(def[2].Trim());
 				if (stamp != null)
 				{
+					if (onlyDnsSec)
+					{
+						if (!stamp.Properties.DnsSec)
+						{
+							continue;
+						}
+					}
+					if (noFilter)
+					{
+						if (!stamp.Properties.NoFilter)
+						{
+							continue;
+						}
+					}
+					if (noLog)
+					{
+						if (!stamp.Properties.NoLog)
+						{
+							continue;
+						}
+					}
+
 					stampList.Add(stamp);
 				}
 			}

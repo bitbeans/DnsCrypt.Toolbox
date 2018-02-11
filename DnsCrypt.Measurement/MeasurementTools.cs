@@ -12,13 +12,13 @@ using NSec.Cryptography;
 
 namespace DnsCrypt.Measurement
 {
-    public static class Measure
+    public static class MeasurementTools
     {
-	    public static async Task<Models.Measurement> Proxy(Stamp stamp)
+	    public static async Task<MeasurementResult> Proxy(Stamp stamp)
 	    {
 		    if (stamp == null) return null;
 
-		    var measurement = new Models.Measurement {Stamp = stamp};
+		    var measurement = new MeasurementResult { Stamp = stamp};
 
 		    try
 		    {
@@ -30,12 +30,10 @@ namespace DnsCrypt.Measurement
 			    sw.Stop();
 			    if (response != null)
 			    {
-
 				    foreach (var answerRecord in response.AnswerRecords)
 				    {
 					    var certificates = new List<Certificate>();
 					    var tr = Encoding.ASCII.GetString(ArrayHelper.SubArray(answerRecord.Data, 0, 9));
-					    Console.WriteLine(answerRecord.DataLength);
 					    if (tr.Equals("|DNSC\0\u0001\0\0") || tr.Equals("|DNSC\0\u0002\0\0"))
 					    {
 						    var certificate = ExtractCertificate(ArrayHelper.SubArray(answerRecord.Data, 9),
