@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Mono.Options;
 using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace Measurement
 {
@@ -25,13 +26,13 @@ namespace Measurement
 			var p = new OptionSet
 		    {
 			    {
-				    "l|list=", "the path to a resolvers.md file",
+				    "l|list=", "the path or url (starting with https://) to a resolvers.md file",
 				    v =>
 				    {
 					    if (v != null) list = v;
 				    }
 			    },
-			    {
+				{
 				    "nl|nologs", "only test resolvers with NoLogs support enabled.",
 				    v =>
 				    {
@@ -83,21 +84,50 @@ namespace Measurement
 			    return;
 		    }
 
+			try
+			{
+				if (!string.IsNullOrEmpty(list))
+				{
+					if (list.StartsWith("https://"))
+					{
+						using (var client = new HttpClient())
+						{
+							if (!json)
+							{
+								Console.WriteLine("Try downloading remote list . . .");
+							}
+							const string tmpFile = "resolvers.md";
+							var getDataTask = client.GetByteArrayAsync(list);
+							var remoteListData = await getDataTask.ConfigureAwait(false);
+							File.WriteAllBytes(tmpFile, remoteListData);
+							if (File.Exists(tmpFile))
+							{
+								list = tmpFile;
+							}
+						}
+					}
+				}
+			}
+			catch (Exception)
+			{
+				Console.WriteLine($"Could not use remote file: {list}");
+			}
 
-		    if (File.Exists(list))
+			if (File.Exists(list))
 		    {
 			    var stamps = StampTools.ReadStampFile(list, noLogs, noFilter, onlyDnssec);
 				var measurementResults = new List<MeasurementResult>();
 			    if (!json)
 			    {
-				    Console.WriteLine("stay tuned . . .");
+				    Console.WriteLine("Stay tuned . . . i`am working");
 			    }
 
-			    foreach (var stamp in stamps)
+				foreach (var stamp in stamps)
 			    {
 				    if (stamp.Protocol == StampProtocol.DnsCrypt)
 				    {
 					    var measurement = await MeasurementTools.Proxy(stamp).ConfigureAwait(false);
+						
 					    if (!measurement.Failed)
 					    {
 						    measurementResults.Add(measurement);
@@ -115,20 +145,17 @@ namespace Measurement
 				    Console.WriteLine("=====================================");
 				    foreach (var measurement in measurementResults)
 				    {
-					    if (!measurement.Failed)
-					    {
-						    Console.WriteLine(
-							    $"{measurement.Time} ms, {measurement.Stamp.ProviderName}, " +
-							    $"NoLogs: {measurement.Stamp.Properties.NoLog}, " +
-							    $"NoFilter: {measurement.Stamp.Properties.NoFilter} " +
-							    $"DNSSEC: {measurement.Stamp.Properties.DnsSec}, " +
-							    $"Certificate Valid: {measurement.Certificate.Valid}");
-					    }
-				    }
+						Console.WriteLine(
+							$"{measurement.Time} ms, {measurement.Stamp.ProviderName}, " +
+							$"NoLogs: {measurement.Stamp.Properties.NoLog}, " +
+							$"NoFilter: {measurement.Stamp.Properties.NoFilter} " +
+							$"DNSSEC: {measurement.Stamp.Properties.DnsSec}, " +
+							$"Certificate Valid: {measurement.Certificate.Valid}");
+					}
 			    }
 			    else
 			    {
-					Console.WriteLine(JsonConvert.SerializeObject(measurementResults.Where(m => m.Failed == false).ToList()));
+					Console.WriteLine(JsonConvert.SerializeObject(measurementResults.Where(m => m.Failed == false).ToList(), Formatting.Indented));
 				}
 		    }
 		    else

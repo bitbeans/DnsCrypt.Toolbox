@@ -14,5 +14,15 @@ namespace DnsCrypt.Measurement.Tests
 			Assert.NotNull(measurement);
 			Assert.False(measurement.Failed);
         }
-    }
+
+		[Fact]
+		public async void MeasureTest2()
+		{
+			const string stamp = "sdns://AQcAAAAAAAAAEzIwOS4yNTAuMjM1LjE3MDo0NDMgz0wbvISl_NVCSe0wDJMS79BAFZoWth1djmhuzv_n3KAiMi5kbnNjcnlwdC1jZXJ0LmRlLmRuc21hc2NoaW5lLm5ldA";
+			var result = StampTools.Decode(stamp);
+			var measurement = await MeasurementTools.Proxy(result).ConfigureAwait(false);
+			Assert.NotNull(measurement);
+			Assert.False(measurement.Failed);
+		}
+	}
 }

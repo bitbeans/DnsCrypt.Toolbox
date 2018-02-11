@@ -10,5 +10,6 @@
 		public string Hash { get; set; }
 		public string Hostname { get; set; }
 		public string Path { get; set; }
+		public int Port { get; set; }
 	}
 }

@@ -17,13 +17,12 @@ namespace DnsCrypt.Measurement
 	    public static async Task<MeasurementResult> Proxy(Stamp stamp)
 	    {
 		    if (stamp == null) return null;
-
 		    var measurement = new MeasurementResult { Stamp = stamp};
 
 		    try
 		    {
-			    var request = new ClientRequest(stamp.Address, 443);
-			    request.Questions.Add(new Question(Domain.FromString(stamp.ProviderName), RecordType.TXT));
+				var request = new ClientRequest(stamp.Address, stamp.Port);
+				request.Questions.Add(new Question(Domain.FromString(stamp.ProviderName), RecordType.TXT));
 			    request.RecursionDesired = true;
 			    var sw = Stopwatch.StartNew();
 			    var response = await request.Resolve().ConfigureAwait(false);
