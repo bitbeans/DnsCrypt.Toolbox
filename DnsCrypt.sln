@@ -15,7 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnsCrypt.Measurement", "Dns
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnsCrypt.Models", "DnsCrypt.Models\DnsCrypt.Models.csproj", "{15ACBBA5-318C-4E7B-8CE1-EE08DEC7F30F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Measurement", "Measurement\Measurement.csproj", "{31BC150D-D1FC-4D2A-8552-C47B2DB328EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Measurement", "Measurement\Measurement.csproj", "{31BC150D-D1FC-4D2A-8552-C47B2DB328EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnsCrypt.Blacklist", "DnsCrypt.Blacklist\DnsCrypt.Blacklist.csproj", "{17F122DF-997E-4997-AA06-4C8818C24FBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnsCrypt.Blacklist.Tests", "DnsCrypt.Blacklist.Tests\DnsCrypt.Blacklist.Tests.csproj", "{847990C4-FE35-435B-9583-21910780EAA3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +55,14 @@ Global
 		{31BC150D-D1FC-4D2A-8552-C47B2DB328EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31BC150D-D1FC-4D2A-8552-C47B2DB328EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31BC150D-D1FC-4D2A-8552-C47B2DB328EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17F122DF-997E-4997-AA06-4C8818C24FBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17F122DF-997E-4997-AA06-4C8818C24FBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17F122DF-997E-4997-AA06-4C8818C24FBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17F122DF-997E-4997-AA06-4C8818C24FBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{847990C4-FE35-435B-9583-21910780EAA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{847990C4-FE35-435B-9583-21910780EAA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{847990C4-FE35-435B-9583-21910780EAA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{847990C4-FE35-435B-9583-21910780EAA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
