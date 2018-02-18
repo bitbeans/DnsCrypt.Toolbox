@@ -8,37 +8,40 @@ using System.Threading.Tasks;
 
 namespace DnsCrypt.Blacklist
 {
-    public static class AddressBlacklist
+    public static class DomainBlacklist
     {
 	    public static async Task<SortedSet<string>> Build(List<string> blacklistsSource, List<string> whitelistSource = null)
 	    {
 		    var blacklist = new SortedSet<string>();
 			var whitelist = new SortedSet<string>(whitelistSource);
 			foreach (var blacklistSourceEntry in blacklistsSource)
-		    {
-			    if (blacklistSourceEntry.StartsWith("file:"))
-			    {
-					if (!File.Exists(blacklistSourceEntry.Split(':')[1])) continue;
-					var rawListString = await ReadAllLinesAsync(blacklistSourceEntry.Split(':')[1]);
+			{
+				if (blacklistSourceEntry.StartsWith("file:"))
+				{
+					var filename = blacklistSourceEntry.Split(new[] { "file:" }, StringSplitOptions.None)[1];
+					if (string.IsNullOrEmpty(filename)) continue;
+					if (!File.Exists(filename)) continue;
+					var rawListString = await ReadAllLinesAsync(filename);
 					var parsed = ParseBlacklist(rawListString, true);
-				    foreach (var p in parsed)
-				    {
-					    blacklist.Add(p);
-				    }
+					foreach (var p in parsed)
+					{
+						blacklist.Add(p);
+					}
 				}
-			    else
-			    {
-				    var rawListString = await FetchRemoteListAsync(blacklistSourceEntry);
-					if (rawListString == null) continue;			    
+				else
+				{
+					var rawListString = await FetchRemoteListAsync(blacklistSourceEntry);
+					if (rawListString == null) continue;
 					var parsed = ParseBlacklist(rawListString, false);
-				    foreach (var p in parsed)
-				    {
-					    blacklist.Add(p);
-				    }
+					foreach (var p in parsed)
+					{
+						blacklist.Add(p);
+					}
 				}
-		    }
-		    blacklist.ExceptWith(whitelist);
-			return blacklist;
+			}
+
+			blacklist.ExceptWith(whitelist);
+		    return blacklist;
 	    }
 
 	    private static async Task<string> FetchRemoteListAsync(string requestUri)
@@ -119,12 +122,12 @@ namespace DnsCrypt.Blacklist
 
 	    private const FileOptions DefaultOptions = FileOptions.Asynchronous | FileOptions.SequentialScan;
 
-	    private static Task<string[]> ReadAllLinesAsync(string path)
+	    public static Task<string[]> ReadAllLinesAsync(string path)
 	    {
 		    return ReadAllLinesAsync(path, Encoding.UTF8);
 	    }
 
-	    private static async Task<string[]> ReadAllLinesAsync(string path, Encoding encoding)
+	    public static async Task<string[]> ReadAllLinesAsync(string path, Encoding encoding)
 	    {
 		    var lines = new List<string>();
 		    using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, DefaultBufferSize, DefaultOptions))

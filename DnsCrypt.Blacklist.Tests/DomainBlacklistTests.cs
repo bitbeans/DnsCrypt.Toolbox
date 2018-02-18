@@ -3,7 +3,7 @@ using Xunit;
 
 namespace DnsCrypt.Blacklist.Tests
 {
-	public class AddressBlacklistTests
+	public class DomainBlacklistTests
     {
         [Fact]
         public async void BuildTest()
@@ -39,7 +39,7 @@ namespace DnsCrypt.Blacklist.Tests
 
 			var blacklists = new List<string>
 	        {
-		        "file:Testfiles/domains-blacklist-local-additions.txt",
+				"file:Testfiles/domains-blacklist-local-additions.txt",
 		        "http://osint.bambenekconsulting.com/feeds/c2-dommasterlist.txt",
 		        "http://hosts-file.net/.%5Cad_servers.txt",
 		        "http://mirror1.malwaredomains.com/files/justdomains",
@@ -68,10 +68,9 @@ namespace DnsCrypt.Blacklist.Tests
 		        "https://raw.githubusercontent.com/Sinfonietta/hostfiles/master/social-hosts"
 			};
 
-			var result = await AddressBlacklist.Build(blacklists, whitelist);
-			
+			var result = await DomainBlacklist.Build(blacklists, whitelist);
 			Assert.NotNull(result);
 			Assert.Contains("eth0.me", result);
-        }
+		}
     }
 }

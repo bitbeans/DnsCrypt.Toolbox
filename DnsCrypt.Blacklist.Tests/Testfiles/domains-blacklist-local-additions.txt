@@ -26,3 +26,6 @@ tracker.*
 # start.
 
 eth0.me
+
+test.de
+*test.*
