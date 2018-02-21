@@ -11,6 +11,8 @@
     <RepositoryUrl>https://github.com/bitbeans/DnsCrypt.Toolbox</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>dnscrypt</PackageTags>
+    <Company>bitbeans</Company>
+    <Authors>Christian Hermann</Authors>
   </PropertyGroup>
 
 </Project>
