@@ -3,6 +3,7 @@ using DnsCrypt.Models;
 using DnsCrypt.Stamps;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -116,24 +117,27 @@ namespace Measurement
 			if (File.Exists(list))
 		    {
 			    var stamps = StampTools.ReadStampFile(list, noLogs, noFilter, onlyDnssec);
-				var measurementResults = new List<MeasurementResult>();
 			    if (!json)
 			    {
-				    Console.WriteLine("Stay tuned . . . i`am working");
+				    Console.WriteLine("measuring . . .");
 			    }
-
+			    var stopWatch = new Stopwatch();
+			    stopWatch.Start();
+			    var measurementTasks = new List<Task<MeasurementResult>>();
 				foreach (var stamp in stamps)
 			    {
 				    if (stamp.Protocol == StampProtocol.DnsCrypt)
 				    {
-					    var measurement = await MeasurementTools.Proxy(stamp).ConfigureAwait(false);
-					    if (!measurement.Failed)
-					    {
-						    measurementResults.Add(measurement);
-					    }
+					    measurementTasks.Add(MeasurementTools.Proxy(stamp));
 				    }
 			    }
-			    measurementResults.Sort((a, b) => a.Time.CompareTo(b.Time));
+
+			    var measurements = await Task.WhenAll(measurementTasks);
+			    var measurementResults = measurements.Where(measurement => !measurement.Failed).ToList();
+
+			    stopWatch.Stop();
+			    var ts = stopWatch.Elapsed;
+				measurementResults.Sort((a, b) => a.Time.CompareTo(b.Time));
 			    if (!json)
 			    {
 				    Console.WriteLine("=====================================");
@@ -142,6 +146,8 @@ namespace Measurement
 				    Console.WriteLine($"Only NoLogs: {noLogs}");
 				    Console.WriteLine($"Only NoFilter: {noFilter}");
 				    Console.WriteLine("=====================================");
+
+					Console.WriteLine();
 				    foreach (var measurement in measurementResults)
 				    {
 						Console.WriteLine(
@@ -151,7 +157,8 @@ namespace Measurement
 							$"DNSSEC: {measurement.Stamp.Properties.DnsSec}, " +
 							$"Certificate Valid: {measurement.Certificate.Valid}");
 					}
-			    }
+				    Console.WriteLine("Total processing time: " + string.Format("{0} min {1} seconds", Math.Floor(ts.TotalMinutes), ts.ToString("ss\\.ff")));
+				}
 			    else
 			    {
 					Console.WriteLine(JsonConvert.SerializeObject(measurementResults.Where(m => m.Failed == false).ToList(), Formatting.Indented));
@@ -161,7 +168,6 @@ namespace Measurement
 		    {
 			    Console.WriteLine("Missing resolvers.md");
 		    }
-		    Console.ReadLine();
 	    }
 
 	    private static void ShowHelp(OptionSet p)

@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <PackageReference Include="DNS" Version="3.0.0" />
-    <PackageReference Include="NSec.Cryptography" Version="18.1.0-alpha-190337" />
+    <PackageReference Include="NSec.Cryptography" Version="18.2.0-preview1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <RuntimeIdentifiers>win-x64;osx-x64;linux-x64</RuntimeIdentifiers>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Authors>Christiann Hermann</Authors>
   </PropertyGroup>
 
