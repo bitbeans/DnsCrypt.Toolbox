@@ -7,7 +7,7 @@ using DnsCrypt.Tools;
 
 namespace DnsCrypt.Stamps
 {
-    public static class StampTools
+	public static class StampTools
 	{
 		/// <summary>
 		/// Decode an encoded Stamp. 
@@ -30,7 +30,11 @@ namespace DnsCrypt.Stamps
 				};
 				var stampBinary = Base64Url.Decode(stamp.Substring(7));
 
-				if (stampBinary[0] == 0x01)
+				if (stampBinary[0] == 0x00)
+				{
+					stampObject.Protocol = StampProtocol.Plain;
+				}
+				else if (stampBinary[0] == 0x01)
 				{
 					stampObject.Protocol = StampProtocol.DnsCrypt;
 				}
@@ -38,58 +42,138 @@ namespace DnsCrypt.Stamps
 				{
 					stampObject.Protocol = StampProtocol.DoH;
 				}
-
-				var properties = stampBinary[1];
-				stampObject.Properties.DnsSec = Convert.ToBoolean((properties >> 0) & 1);
-				stampObject.Properties.NoLog = Convert.ToBoolean((properties >> 1) & 1);
-				stampObject.Properties.NoFilter = Convert.ToBoolean((properties >> 2) & 1);
-				var i = 9;
-				var addressLength = stampBinary[i++];
-				stampObject.Address = Encoding.UTF8.GetString(ArrayHelper.SubArray(stampBinary, i, addressLength));
-				i += addressLength;
-
-				if (!string.IsNullOrEmpty(stampObject.Address))
+				else if (stampBinary[0] == 0x03)
 				{
-					if (Uri.TryCreate(string.Format("http://{0}", stampObject.Address), UriKind.Absolute, out Uri url))
-					{
-						stampObject.Address = url.Host;
-						if (url.Port == 80)
-						{
-							stampObject.Port = 443;
-						}
-						else
-						{
-							stampObject.Port = url.Port;
-						}
-					}
+					stampObject.Protocol = StampProtocol.TLS;
 				}
-				else
+				else if (stampBinary[0] == 0x81)
 				{
-					//eg: google
-					stampObject.Port = 53; 
+					stampObject.Protocol = StampProtocol.DNSCryptRelay;
 				}
 
 				switch (stampObject.Protocol)
 				{
+					case StampProtocol.Plain:
+						break;
 					case StampProtocol.DnsCrypt:
-						var publicKeyLength = stampBinary[i++];
-						stampObject.PublicKey = Converters.ByteArrayToHexString(ArrayHelper.SubArray(stampBinary, i, publicKeyLength));
-						i += publicKeyLength;
-						var providerNameLength = stampBinary[i++];
-						stampObject.ProviderName = Encoding.UTF8.GetString(ArrayHelper.SubArray(stampBinary, i, providerNameLength));
+						if (stampBinary.Length < 66)
+						{
+							//Stamp is too short
+							return null;
+						}
+
+						var dnsCryptProperties = stampBinary[1];
+						stampObject.Properties.DnsSec = Convert.ToBoolean((dnsCryptProperties >> 0) & 1);
+						stampObject.Properties.NoLog = Convert.ToBoolean((dnsCryptProperties >> 1) & 1);
+						stampObject.Properties.NoFilter = Convert.ToBoolean((dnsCryptProperties >> 2) & 1);
+						var dnsCryptCounter = 9;
+						var dnsCryptAddressLength = stampBinary[dnsCryptCounter++];
+						stampObject.Address = Encoding.UTF8.GetString(ArrayHelper.SubArray(stampBinary, dnsCryptCounter, dnsCryptAddressLength));
+						dnsCryptCounter += dnsCryptAddressLength;
+
+						if (!string.IsNullOrEmpty(stampObject.Address))
+						{
+							if (Uri.TryCreate(string.Format("http://{0}", stampObject.Address), UriKind.Absolute, out Uri url))
+							{
+								stampObject.Address = url.Host;
+								if (url.Port == 80)
+								{
+									stampObject.Port = 443;
+								}
+								else
+								{
+									stampObject.Port = url.Port;
+								}
+							}
+						}
+						else
+						{
+							//eg: google
+							stampObject.Port = 53;
+						}
+						var publicKeyLength = stampBinary[dnsCryptCounter++];
+						stampObject.PublicKey = Converters.ByteArrayToHexString(ArrayHelper.SubArray(stampBinary, dnsCryptCounter, publicKeyLength));
+						dnsCryptCounter += publicKeyLength;
+						var providerNameLength = stampBinary[dnsCryptCounter++];
+						stampObject.ProviderName = Encoding.UTF8.GetString(ArrayHelper.SubArray(stampBinary, dnsCryptCounter, providerNameLength));
 						break;
 					case StampProtocol.DoH:
-						var hashLength = stampBinary[i++];
-						stampObject.Hash = Converters.ByteArrayToHexString(ArrayHelper.SubArray(stampBinary, i, hashLength));
-						i += hashLength;
-						var hostNameLength = stampBinary[i++];
-						stampObject.Hostname = Encoding.UTF8.GetString(ArrayHelper.SubArray(stampBinary, i, hostNameLength));
-						i += hostNameLength;
-						var pathLength = stampBinary[i++];
-						stampObject.Path = Encoding.UTF8.GetString(ArrayHelper.SubArray(stampBinary, i, pathLength));
+						if (stampBinary.Length < 22)
+						{
+							//Stamp is too short
+							return null;
+						}
+
+						var dohProperties = stampBinary[1];
+						stampObject.Properties.DnsSec = Convert.ToBoolean((dohProperties >> 0) & 1);
+						stampObject.Properties.NoLog = Convert.ToBoolean((dohProperties >> 1) & 1);
+						stampObject.Properties.NoFilter = Convert.ToBoolean((dohProperties >> 2) & 1);
+						var dohCounter = 9;
+						var dohAddressLength = stampBinary[dohCounter++];
+						stampObject.Address = Encoding.UTF8.GetString(ArrayHelper.SubArray(stampBinary, dohCounter, dohAddressLength));
+						dohCounter += dohAddressLength;
+
+						if (!string.IsNullOrEmpty(stampObject.Address))
+						{
+							if (Uri.TryCreate(string.Format("http://{0}", stampObject.Address), UriKind.Absolute, out Uri url))
+							{
+								stampObject.Address = url.Host;
+								if (url.Port == 80)
+								{
+									stampObject.Port = 443;
+								}
+								else
+								{
+									stampObject.Port = url.Port;
+								}
+							}
+						}
+						else
+						{
+							//eg: google
+							stampObject.Port = 53;
+						}
+						var hashLength = stampBinary[dohCounter++];
+						stampObject.Hash = Converters.ByteArrayToHexString(ArrayHelper.SubArray(stampBinary, dohCounter, hashLength));
+						dohCounter += hashLength;
+						var hostNameLength = stampBinary[dohCounter++];
+						stampObject.Hostname = Encoding.UTF8.GetString(ArrayHelper.SubArray(stampBinary, dohCounter, hostNameLength));
+						dohCounter += hostNameLength;
+						var pathLength = stampBinary[dohCounter++];
+						stampObject.Path = Encoding.UTF8.GetString(ArrayHelper.SubArray(stampBinary, dohCounter, pathLength));
 						break;
-					default:
-						stampObject = null;
+					case StampProtocol.DNSCryptRelay:
+						if (stampBinary.Length < 13)
+						{
+							//Stamp is too short
+							return null;
+						}
+						var relayCounter = 1;
+						var relayAddressLength = stampBinary[relayCounter++];
+						stampObject.Address = Encoding.UTF8.GetString(ArrayHelper.SubArray(stampBinary, relayCounter, relayAddressLength));
+						if (!string.IsNullOrEmpty(stampObject.Address))
+						{
+							if (Uri.TryCreate(string.Format("http://{0}", stampObject.Address), UriKind.Absolute, out Uri url))
+							{
+								stampObject.Address = url.Host;
+								if (url.Port == 80)
+								{
+									stampObject.Port = 443;
+								}
+								else
+								{
+									stampObject.Port = url.Port;
+								}
+							}
+						}
+						else
+						{
+							return null;
+						}
+						break;
+					case StampProtocol.TLS:
+						break;
+					case StampProtocol.Unknown:
 						break;
 				}
 				return stampObject;
@@ -111,6 +195,7 @@ namespace DnsCrypt.Stamps
 		public static List<Stamp> ReadStampFile(string stampFilePath, bool noLog = false, bool noFilter = false, bool onlyDnsSec = false)
 		{
 			var stampList = new List<Stamp>();
+			var bad = new List<string>();
 			if (!File.Exists(stampFilePath)) return stampList;
 			var content = File.ReadAllText(stampFilePath);
 			if (string.IsNullOrEmpty(content)) return stampList;
@@ -118,12 +203,16 @@ namespace DnsCrypt.Stamps
 
 			foreach (var rawStampListEntry in rawStampList)
 			{
-				var def = rawStampListEntry.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
+				var def = rawStampListEntry.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 				//TODO: fix this condition (may not work with every list ...)
-				if (def.Length > 6) continue;
+				/*if (def.Length > 6)
+				{
+					bad.Add(rawStampListEntry);
+					continue;
+				}*/
 
 				Stamp stamp = null;
-				for (int i = 0; i<def.Length; i++)
+				for (int i = 0; i < def.Length; i++)
 				{
 					if (def[i].StartsWith("sdns://"))
 					{
