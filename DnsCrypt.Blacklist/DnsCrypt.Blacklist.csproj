@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Version>0.1.1</Version>
-    <Copyright>Copyright (c) 2018 Christian Hermann</Copyright>
+    <Copyright>Copyright (c) 2018 - 2019 Christian Hermann</Copyright>
     <PackageProjectUrl>https://github.com/bitbeans/DnsCrypt.Toolbox</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/bitbeans/DnsCrypt.Toolbox/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
     <Description>Build blacklists for dnscrypt-proxy</Description>
     <AssemblyVersion>0.1.1.0</AssemblyVersion>
     <RepositoryUrl>https://github.com/bitbeans/DnsCrypt.Toolbox</RepositoryUrl>
@@ -13,6 +13,7 @@
     <PackageTags>dnscrypt</PackageTags>
     <Company>bitbeans</Company>
     <Authors>Christian Hermann</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
 </Project>

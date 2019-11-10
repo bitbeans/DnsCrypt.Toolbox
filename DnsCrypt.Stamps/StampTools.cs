@@ -210,7 +210,10 @@ namespace DnsCrypt.Stamps
 					}
 					else
 					{
-						stampFileEntry.Description += def[i];
+						if (i != 0)
+						{
+							stampFileEntry.Description += def[i];
+						}
 					}
 				}
 

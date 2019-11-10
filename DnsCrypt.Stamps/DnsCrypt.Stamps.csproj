@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.2.1</Version>
+    <Version>0.2.2</Version>
     <Description>Stamps for dnscrypt-proxy</Description>
     <Copyright>Copyright (c) 2018 - 2019 Christian Hermann</Copyright>
     <PackageLicenseUrl></PackageLicenseUrl>
@@ -10,11 +10,11 @@
     <RepositoryUrl>https://github.com/bitbeans/DnsCrypt.Toolbox</RepositoryUrl>
     <PackageTags>dnscrypt</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>0.2.1.0</AssemblyVersion>
+    <AssemblyVersion>0.2.2.0</AssemblyVersion>
     <Authors>Christian Hermann</Authors>
     <Company>bitbeans</Company>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <FileVersion>0.2.1.0</FileVersion>
+    <FileVersion>0.2.2.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
