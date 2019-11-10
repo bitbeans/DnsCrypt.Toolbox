@@ -23,5 +23,13 @@ namespace DnsCrypt.Stamps.Tests
 			var stamps = StampTools.ReadStampFile(testFile);
 			Assert.Equal(44, stamps.Count(s => s.Protocol == Models.StampProtocol.DNSCryptRelay));
 		}
+
+		[Fact]
+		public void ReadStampFileEntriesTest()
+		{
+			var testFile = Path.Combine("Testfiles", "relays.md");
+			var entries = StampTools.ReadStampFileEntries(testFile);
+			Assert.Equal(44, entries.Count);
+		}
 	}
 }

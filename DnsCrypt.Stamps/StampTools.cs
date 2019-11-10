@@ -1,9 +1,9 @@
-﻿using System;
+﻿using DnsCrypt.Models;
+using DnsCrypt.Tools;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using DnsCrypt.Models;
-using DnsCrypt.Tools;
 
 namespace DnsCrypt.Stamps
 {
@@ -184,18 +184,9 @@ namespace DnsCrypt.Stamps
 			}
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="stampFilePath"></param>
-		/// <param name="noLog"></param>
-		/// <param name="noFilter"></param>
-		/// <param name="onlyDnsSec"></param>
-		/// <returns></returns>
-		public static List<Stamp> ReadStampFile(string stampFilePath, bool noLog = false, bool noFilter = false, bool onlyDnsSec = false)
+		public static List<StampFileEntry> ReadStampFileEntries(string stampFilePath)
 		{
-			var stampList = new List<Stamp>();
-			var bad = new List<string>();
+			var stampList = new List<StampFileEntry>();
 			if (!File.Exists(stampFilePath)) return stampList;
 			var content = File.ReadAllText(stampFilePath);
 			if (string.IsNullOrEmpty(content)) return stampList;
@@ -204,12 +195,45 @@ namespace DnsCrypt.Stamps
 			foreach (var rawStampListEntry in rawStampList)
 			{
 				var def = rawStampListEntry.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
-				//TODO: fix this condition (may not work with every list ...)
-				/*if (def.Length > 6)
+
+				var stampFileEntry = new StampFileEntry();
+				Stamp stamp = null;
+				for (int i = 0; i < def.Length; i++)
 				{
-					bad.Add(rawStampListEntry);
-					continue;
-				}*/
+					if (i == 0)
+					{
+						stampFileEntry.Name = def[i].Trim();
+					}
+					if (def[i].StartsWith("sdns://"))
+					{
+						stamp = Decode(def[i].Trim());
+					}
+					else
+					{
+						stampFileEntry.Description += def[i];
+					}
+				}
+
+				if (stamp != null)
+				{
+					stampFileEntry.Stamp = stamp;
+					stampList.Add(stampFileEntry);
+				}
+			}
+			return stampList;
+		}
+
+		public static List<Stamp> ReadStampFile(string stampFilePath, bool noLog = false, bool noFilter = false, bool onlyDnsSec = false)
+		{
+			var stampList = new List<Stamp>();
+			if (!File.Exists(stampFilePath)) return stampList;
+			var content = File.ReadAllText(stampFilePath);
+			if (string.IsNullOrEmpty(content)) return stampList;
+			var rawStampList = content.Split(new[] { '#', '#' }, StringSplitOptions.RemoveEmptyEntries);
+
+			foreach (var rawStampListEntry in rawStampList)
+			{
+				var def = rawStampListEntry.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
 				Stamp stamp = null;
 				for (int i = 0; i < def.Length; i++)
