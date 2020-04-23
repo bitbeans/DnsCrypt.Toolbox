@@ -7,7 +7,7 @@
     <Authors>Christian Hermann</Authors>
     <Company>bitbeans</Company>
     <Description>Measure dnscrypt-proxy resolvers</Description>
-    <Copyright>Copyright (c) 2018 - 2019 Christian Hermann</Copyright>
+    <Copyright>Copyright (c) 2018 - 2020 Christian Hermann</Copyright>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/bitbeans/DnsCrypt.Toolbox</PackageProjectUrl>
     <RepositoryUrl>https://github.com/bitbeans/DnsCrypt.Toolbox</RepositoryUrl>

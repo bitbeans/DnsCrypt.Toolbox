@@ -1,0 +1,69 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+
+    <RootNamespace>DnsCrypt.Configuration.Tests</RootNamespace>
+
+    <AssemblyName>DnsCrypt.Configuration.Tests</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Data\2.0.36-dnscrypt-proxy.exe" />
+    <None Remove="Data\2.0.36-example-dnscrypt-proxy.toml" />
+    <None Remove="Data\2.0.36-full-dnscrypt-proxy.toml" />
+    <None Remove="Data\2.0.41-dnscrypt-proxy.exe" />
+    <None Remove="Data\2.0.41-example-dnscrypt-proxy.toml" />
+    <None Remove="Data\2.0.41-full-dnscrypt-proxy.toml" />
+    <None Remove="Data\2.0.42-dnscrypt-proxy.exe" />
+    <None Remove="Data\2.0.42-example-dnscrypt-proxy.toml" />
+    <None Remove="Data\2.0.42-full-dnscrypt-proxy.toml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Data\2.0.36-full-dnscrypt-proxy.toml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\2.0.36-example-dnscrypt-proxy.toml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\2.0.42-full-dnscrypt-proxy.toml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\2.0.41-dnscrypt-proxy.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\2.0.41-example-dnscrypt-proxy.toml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\2.0.41-full-dnscrypt-proxy.toml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\2.0.42-dnscrypt-proxy.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\2.0.42-example-dnscrypt-proxy.toml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+    <PackageReference Include="coverlet.collector" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DnsCrypt.Configuration\DnsCrypt.Configuration.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Data\2.0.36-dnscrypt-proxy.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

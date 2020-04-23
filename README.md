@@ -2,6 +2,20 @@
 
 ## Status
 
+### DNSCrypt Configuration
+
+Is used to read and write the dnscrypt-proxy.toml configuration under .NET
+
+https://github.com/bitbeans/SimpleDnsCrypt
+
+https://github.com/DNSCrypt/dnscrypt-proxy
+
+#### Verified and compatible versions
+
+ - [x] 2.0.42
+ - [x] 2.0.41
+ - [x] 2.0.36
+
 ### DNSCrypt Measurement
 
 ##### Example

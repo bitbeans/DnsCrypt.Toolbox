@@ -1,0 +1,114 @@
+server_names = ['scaleway-fr', 'google', 'yandex', 'cloudflare']
+listen_addresses = ['127.0.0.1:53']
+max_clients = 250
+user_name = 'nobody'
+ipv4_servers = true
+ipv6_servers = false
+dnscrypt_servers = true
+doh_servers = true
+require_dnssec = false
+require_nolog = true
+require_nofilter = true
+disabled_server_names = []
+force_tcp = false
+proxy = 'socks5://127.0.0.1:9050'
+http_proxy = 'http://127.0.0.1:8888'
+timeout = 5000
+keepalive = 30
+blocked_query_response = 'refused'
+lb_strategy = 'p2'
+lb_estimator = true
+log_level = 2
+log_file = 'dnscrypt-proxy.log'
+use_syslog = false
+cert_refresh_delay = 240
+dnscrypt_ephemeral_keys = false
+tls_disable_session_tickets = false
+tls_cipher_suite = [52392, 49199]
+fallback_resolvers = ['9.9.9.9:53', '8.8.8.8:53']
+ignore_system_dns = true
+netprobe_timeout = 60
+netprobe_address = '9.9.9.9:53'
+offline_mode = false
+query_meta = ["key1:value1", "key2:value2", "token:MySecretToken"]
+log_files_max_size = 10
+log_files_max_age = 7
+log_files_max_backups = 1
+block_ipv6 = false
+block_unqualified = true
+block_undelegated = true
+reject_ttl = 600
+forwarding_rules = 'forwarding-rules.txt'
+cloaking_rules = 'cloaking-rules.txt'
+cloak_ttl = 600
+cache = true
+cache_size = 4096
+cache_min_ttl = 2400
+cache_max_ttl = 86400
+cache_neg_min_ttl = 60
+cache_neg_max_ttl = 600
+[local_doh]
+listen_addresses = ['127.0.0.1:3000']
+path = "/dns-query"
+cert_file = "localhost.pem"
+cert_key_file = "localhost.pem"
+[query_log]
+file = 'query.log'
+format = 'tsv'
+ignored_qtypes = ['DNSKEY', 'NS']
+[nx_log]
+file = 'nx.log'
+format = 'tsv'
+[blacklist]
+blacklist_file = 'blacklist.txt'
+log_file = 'blocked.log'
+log_format = 'tsv'
+[ip_blacklist]
+blacklist_file = 'ip-blacklist.txt'
+log_file = 'ip-blocked.log'
+log_format = 'tsv'
+[whitelist]
+whitelist_file = 'whitelist.txt'
+log_file = 'whitelisted.log'
+log_format = 'tsv'
+[schedules]
+[schedules.'time-to-sleep']
+mon = [{after='21:00', before='7:00'}]
+tue = [{after='21:00', before='7:00'}]
+wed = [{after='21:00', before='7:00'}]
+thu = [{after='21:00', before='7:00'}]
+fri = [{after='23:00', before='7:00'}]
+sat = [{after='23:00', before='7:00'}]
+sun = [{after='21:00', before='7:00'}]
+[schedules.'work']
+mon = [{after='9:00', before='18:00'}]
+tue = [{after='9:00', before='18:00'}]
+wed = [{after='9:00', before='18:00'}]
+thu = [{after='9:00', before='18:00'}]
+fri = [{after='9:00', before='17:00'}]
+[sources]
+[sources.'public-resolvers']
+urls = ['https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v2/public-resolvers.md', 'https://download.dnscrypt.info/resolvers-list/v2/public-resolvers.md']
+cache_file = 'public-resolvers.md'
+minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'
+prefix = ''
+[sources.'relays']
+urls = ['https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v2/relays.md', 'https://download.dnscrypt.info/resolvers-list/v2/relays.md']
+cache_file = 'relays.md'
+minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'
+refresh_delay = 72
+prefix = ''
+[broken_implementations]
+broken_query_padding = ['cisco', 'cisco-ipv6', 'cisco-familyshield']
+[tls_client_auth]
+creds = [
+{ server_name='myserver', client_cert='client.crt', client_key='client.key' }
+]
+[anonymized_dns]
+routes = [
+{ server_name='example-server-1', via=['anon-example-1', 'anon-example-2'] },
+{ server_name='example-server-2', via=['sdns://gRIxMzcuNzQuMjIzLjIzNDo0NDM'] }
+]
+[static]
+[static.'myserver']
+stamp = 'sdns:AQcAAAAAAAAAAAAQMi5kbnNjcnlwdC1jZXJ0Lg'
