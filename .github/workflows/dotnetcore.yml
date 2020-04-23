@@ -18,8 +18,8 @@ jobs:
       with:
         dotnet-version: 3.1.101
     - name: Install dependencies
-      run: dotnet restore src/DnsCrypt.sln
+      run: dotnet restore .\DnsCrypt.sln
     - name: Build DnsCrypt.Configuration
       run: dotnet build --configuration Release --no-restore .\DnsCrypt.Configuration\
     - name: Test DnsCrypt.Configuration
-      run: dotnet test --no-restore --verbosity normal .\src\DnsCrypt.Configuration.Tests\
+      run: dotnet test --no-restore --verbosity normal .\DnsCrypt.Configuration.Tests\
